@@ -20,6 +20,14 @@ def drop_db():
     if prompt_bool("Are you sure you want to lose all your data?"):
         db.drop_all()
 
+@manager.command
+def test():
+    """Runs tests for application"""
+
+    import nose
+
+    nose.main(argv=[''])
+
 
 if __name__ == '__main__':
     manager.run()
