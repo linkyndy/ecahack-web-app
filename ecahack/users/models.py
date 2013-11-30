@@ -1,7 +1,8 @@
 import datetime
 
 from flask.ext.login import UserMixin
-from werkzeug import generate_password_hash, check_password_hash
+from flask.ext.scrypt import generate_random_salt, generate_password_hash, \
+                             check_password_hash
 
 from ecahack import db
 from ecahack.users.constants import ADMIN, USER, ROLES
@@ -41,3 +42,8 @@ class User(db.Model, UserMixin):
 
     def is_admin(self):
         return self.role == 'admin'
+
+    def __init__(self, rfid, username=None, password=None):
+        self.rfid = rfid
+        self.username = username or rfid
+        self._password = password or generate_random_salt()
