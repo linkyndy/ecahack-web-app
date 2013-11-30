@@ -4,6 +4,7 @@ from ecahack import app, db
 
 
 manager = Manager(app)
+manager.add_command('runserver', Server())
 
 
 @manager.command
