@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template
+from flask.ext.login import login_required, current_user
 
 from ecahack import db
 
@@ -11,6 +12,7 @@ def index():
     pass
 
 @user_blueprint.route('/profile')
+@login_required
 def profile():
     pass
 
@@ -19,6 +21,7 @@ def login():
     pass
 
 @user_blueprint.route('/logout')
+@login_required
 def logout():
     pass
 
