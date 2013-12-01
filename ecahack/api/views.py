@@ -9,7 +9,7 @@ from ecahack.users.models import User
 api_blueprint = Blueprint('api', __name__, url_prefix='/api')
 
 
-@api_blueprint.route('/register_user', methods=['POST'])
+@api_blueprint.route('/register_user', methods=['GET'])
 def register():
     """
     Response codes:
@@ -19,20 +19,20 @@ def register():
         -1: already registered
     """
 
-    json = request.get_json()
+    rfid = request.args.get('rfid', None)
 
-    if not json.get('rfid', None):
+    if not rfid:
         return jsonify(code=1)
 
-    if len(json['rfid']) != 14:
+    if len(rfid) != 14:
         return jsonify(code=2)
 
-    user = User.query.filter_by(rfid=json['rfid']).first()
+    user = User.query.filter_by(rfid=rfid).first()
 
     if user is not None:
         return jsonify(code=-1)
 
-    user = User(rfid=json['rfid'])
+    user = User(rfid=rfid)
 
     db.session.add(user)
     db.session.commit()
@@ -40,7 +40,7 @@ def register():
     return jsonify(code=0)
 
 
-@api_blueprint.route('/add_checkin', methods=['POST'])
+@api_blueprint.route('/add_checkin', methods=['GET'])
 def add():
     """
     Response codes:
@@ -51,15 +51,15 @@ def add():
         -1: user not registered
     """
 
-    json = request.get_json()
+    rfid = request.args.get('rfid', None)
 
-    if not json.get('rfid', None):
+    if not rfid:
         return jsonify(code=1)
 
-    if len(json['rfid']) != 14:
+    if len(rfid) != 14:
         return jsonify(code=2)
 
-    user = User.query.filter_by(rfid=json['rfid']).first()
+    user = User.query.filter_by(rfid=rfid).first()
 
     if user:
         event = Event.get_current()
