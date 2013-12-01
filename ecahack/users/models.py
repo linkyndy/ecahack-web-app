@@ -35,8 +35,9 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password, password)
 
     @classmethod
-    def authenticate(cls, username, password):
-        user = cls.query.filter_by(username=username).first()
+    def authenticate(cls, username_or_rfid, password):
+        user = cls.query.filter(db.or_(cls.username == username_or_rfid,
+                                       cls.rfid == username_or_rfid)).first()
 
         if user and user.check_password(password):
             return user

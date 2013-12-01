@@ -6,7 +6,7 @@ from ecahack.users.models import User
 
 
 class LoginForm(Form):
-    username = TextField('Username', [Required()])
+    username_or_rfid = TextField('Username or RFID', [Required()])
     password = PasswordField('Password', [Required()])
     submit = SubmitField('Log in')
 

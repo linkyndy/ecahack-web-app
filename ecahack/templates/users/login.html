@@ -8,9 +8,9 @@
     <form method="POST" action="{{ url }}">
         {{ form.hidden_tag() }}
 
-        {{ form.username.label }} {{ form.username }}
-        {% if form.username.errors %}
-            {% for error in form.username.errors %}
+        {{ form.username_or_rfid.label }} {{ form.username_or_rfid }}
+        {% if form.username_or_rfid.errors %}
+            {% for error in form.username_or_rfid.errors %}
                 {{ error }}
             {% endfor %}
         {% endif %}

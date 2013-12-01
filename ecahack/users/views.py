@@ -27,7 +27,7 @@ def login():
     form = LoginForm()
 
     if form.validate_on_submit():
-        user = User.authenticate(form.username.data, form.password.data)
+        user = User.authenticate(form.username_or_rfid.data, form.password.data)
 
         if user:
             if login_user(user):
