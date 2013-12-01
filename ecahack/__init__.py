@@ -16,5 +16,7 @@ def load_user(user_id):
 
 login_manager.init_app(app)
 
+from ecahack.checkins.views import checkin_blueprint
 from ecahack.users.views import user_blueprint
+app.register_blueprint(checkin_blueprint)
 app.register_blueprint(user_blueprint)
