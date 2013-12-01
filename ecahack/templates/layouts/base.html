@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>
+            {% block title %}
+                {{ page_title|default('ecaHack') }}
+            {% endblock %}
+        </title>
+
+        {% block css %}
+
+        {% endblock %}
+
+        {% block js_top %}
+
+        {% endblock %}
+    </head>
+    <body>
+        {% block flash_message %}
+            {% with messages = get_flashed_messages(with_categories=True) %}
+                {% if messages %}
+                    {{ messages }}
+                {% endif %}
+            {% endwith %}
+        {% endblock %}
+
+        {% block container %}
+
+        {% endblock %}
+
+        {% block js_bottom %}
+
+        {% endblock %}
+    </body>
+</html>
