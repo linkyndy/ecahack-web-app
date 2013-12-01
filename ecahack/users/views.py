@@ -24,10 +24,6 @@ def login():
     if current_user.is_authenticated():
         return redirect(url_for('user.profile'))
 
-@user_blueprint.route('/logout')
-@login_required
-def logout():
-    pass
     form = LoginForm()
 
     if form.validate_on_submit():
@@ -59,3 +55,9 @@ def refresh_login():
 
     return render_template('users/refresh_login.html', form=form)
 
+@user_blueprint.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('Logged out!', 'success')
+    return redirect(url_for('users.index'))
