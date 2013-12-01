@@ -34,6 +34,15 @@ class User(db.Model, UserMixin):
             return False
         return check_password_hash(self.password, password)
 
+    @classmethod
+    def authenticate(cls, username, password):
+        user = cls.query.filter_by(username=username).first()
+
+        if user and user.check_password(password):
+            return user
+
+        return False
+
     def _get_role(self):
         return ROLES[self._role]
 
