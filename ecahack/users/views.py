@@ -4,7 +4,7 @@ from flask.ext.login import login_required, current_user
 
 from ecahack import db
 from ecahack.users.models import User
-from ecahack.users.forms import LoginForm, RefreshLoginForm
+from ecahack.users.forms import LoginForm, RefreshLoginForm, RegisterForm
 
 
 user_blueprint = Blueprint('users', __name__, url_prefix='/users')
@@ -61,3 +61,24 @@ def logout():
     logout_user()
     flash('Logged out!', 'success')
     return redirect(url_for('users.index'))
+
+@user_blueprint.route('/register', methods=['GET', 'POST'])
+@login_required
+def register():
+    if not current_user.is_admin():
+        flash('You don\'t have the rights to access this page', 'error')
+        return redirect(url_for('users.profile'))
+
+    form = RegisterForm()
+
+    if form.validate_on_submit():
+        user = User(rfid=form.rfid.data,
+                    username=form.username.data,
+                    password=form.password.data)
+        db.session.add(user)
+        db.session.commit()
+
+        flash('User registered', 'success')
+        return redirect(url_for('users.register'))
+
+    return render_template('users/register.html', form=form)
