@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 
-from ecahack import db
+from ecahack import app, db
 from ecahack.checkins.models import Checkin
 from ecahack.events.models import Event
 from ecahack.users.models import User
@@ -18,6 +18,11 @@ def register():
         2: invalid rfid param
         -1: already registered
     """
+
+    api_secret = request.args.get('api_secret', None)
+
+    if api_secret != app.config['API_SECRET']:
+        return jsonify(code=4)
 
     rfid = request.args.get('rfid', None)
 
@@ -50,6 +55,11 @@ def add():
         3: no current event
         -1: user not registered
     """
+
+    api_secret = request.args.get('api_secret', None)
+
+    if api_secret != app.config['API_SECRET']:
+        return jsonify(code=4)
 
     rfid = request.args.get('rfid', None)
 
