@@ -28,24 +28,30 @@ def logout():
 
 @user_blueprint.route('/register', methods=['POST'])
 def register():
+    """
+    Response codes:
+        0: success
+        1: no rfid param
+        2: invalid rfid param
+        -1: already registered
+    """
+
     json = request.get_json()
 
     if not json.get('rfid', None):
-        return jsonify(type=u'error', message=u'No RFID parameter sent.')
+        return jsonify(code=1)
 
     if len(json['rfid']) != 14:
-        return jsonify(type=u'error', message=u'Invalid RFID parameter sent.')
+        return jsonify(code=2)
 
     user = User.query.filter_by(rfid=json['rfid']).first()
 
     if user is not None:
-        return jsonify(type=u'success', message=u'User already registered with'
-                                                 ' RFID %s' % json['rfid'])
+        return jsonify(code=-1)
 
     user = User(rfid=json['rfid'])
 
     db.session.add(user)
     db.session.commit()
 
-    return jsonify(type=u'success', message=u'Successfully registered user with'
-                                             ' RFID %s' % json['rfid'])
+    return jsonify(code=0)
