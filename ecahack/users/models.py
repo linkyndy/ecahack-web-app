@@ -18,6 +18,8 @@ class User(db.Model, UserMixin):
     _role = db.Column('role', db.SmallInteger, nullable=False, default=USER)
     created = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
 
+    checkins = db.relationship('Checkin', backref='user')
+
     def _get_password(self):
         return self._password
 
