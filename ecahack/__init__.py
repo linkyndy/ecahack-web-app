@@ -7,6 +7,7 @@ app.config.from_object('config')
 
 db = SQLAlchemy(app)
 
+from ecahack.users.models import User
 login_manager = LoginManager()
 login_manager.login_view = 'users.login'
 login_manager.refresh_view = 'users.refresh_login'

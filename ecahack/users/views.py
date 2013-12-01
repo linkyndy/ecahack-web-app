@@ -1,6 +1,7 @@
 from flask import (Blueprint, render_template, request, redirect, url_for,
                    flash)
-from flask.ext.login import login_required, current_user
+from flask.ext.login import (login_required, current_user, login_user,
+                             confirm_login, logout_user)
 
 from ecahack import db
 from ecahack.users.models import User
@@ -22,7 +23,7 @@ def profile():
 @user_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated():
-        return redirect(url_for('user.profile'))
+        return redirect(url_for('users.profile'))
 
     form = LoginForm()
 
@@ -32,7 +33,7 @@ def login():
         if user:
             if login_user(user):
                 flash('Logged in!', 'success')
-            return redirect(url_for('user.profile'))
+            return redirect(url_for('users.profile'))
 
         flash('Invalid login data', 'error')
 
@@ -49,7 +50,7 @@ def refresh_login():
         if user:
             confirm_login()
             flash('Refreshed login', 'success')
-            return redirect(url_for('user.profile'))
+            return redirect(url_for('users.profile'))
 
         flash('Invalid password', 'error')
 

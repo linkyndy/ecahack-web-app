@@ -14,6 +14,7 @@ def create_db():
     """Creates database tables based on SQLAlchemy models"""
 
     db.create_all()
+    print 'Database tables created.'
 
 @manager.command
 def create_admin():
@@ -28,6 +29,7 @@ def create_admin():
                 role=ADMIN)
     db.session.add(user)
     db.session.commit()
+    print 'Admin added.'
 
 @manager.command
 def drop_db():
@@ -35,6 +37,7 @@ def drop_db():
 
     if prompt_bool("Are you sure you want to lose all your data?"):
         db.drop_all()
+    print 'Database tables dropped.'
 
 @manager.command
 def recreate_db():

@@ -54,7 +54,8 @@ class User(db.Model, UserMixin):
     def is_admin(self):
         return self.role == 'admin'
 
-    def __init__(self, rfid, username=None, password=None):
+    def __init__(self, rfid, username=None, password=None, role=None):
         self.rfid = rfid
         self.username = username or rfid
         self.password = password or rfid
+        self.role = role
