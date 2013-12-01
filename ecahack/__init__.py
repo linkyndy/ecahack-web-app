@@ -9,6 +9,7 @@ db = SQLAlchemy(app)
 
 login_manager = LoginManager()
 login_manager.login_view = 'users.login'
+login_manager.refresh_view = 'users.refresh_login'
 
 @login_manager.user_loader
 def load_user(user_id):

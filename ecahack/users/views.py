@@ -42,7 +42,20 @@ def logout():
 
     return render_template('users/login.html', form=form)
 
+@user_blueprint.route('/refresh-login', methods=['GET', 'POST'])
+@login_required
+def refresh_login():
+    form = RefreshLoginForm()
 
+    if form.validate_on_submit():
+        user = User.authenticate(current_user.username, form.password.data)
 
+        if user:
+            confirm_login()
+            flash('Refreshed login', 'success')
+            return redirect(url_for('user.profile'))
 
+        flash('Invalid password', 'error')
+
+    return render_template('users/refresh_login.html', form=form)
 

@@ -9,3 +9,9 @@ class LoginForm(Form):
     username = TextField('Username', [Required()])
     password = PasswordField('Password', [Required()])
     submit = SubmitField('Log in')
+
+
+class RefreshLoginForm(Form):
+    password = PasswordField('Password', [Required()])
+    submit = SubmitField('Log in')
+

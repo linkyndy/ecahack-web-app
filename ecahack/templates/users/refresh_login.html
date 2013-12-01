@@ -1,0 +1,20 @@
+{% set page_title = 'Log in' %}
+
+{% extends 'layouts/base.html' %}
+
+{% block container %}
+    <h2>Refresh login</h2>
+
+    <form method="POST" action="{{ url }}">
+        {{ form.hidden_tag() }}
+
+        {{ form.password.label }} {{ form.password }}
+        {% if form.password.errors %}
+            {% for error in form.password.errors %}
+                {{ error }}
+            {% endfor %}
+        {% endif %}
+
+        {{ form.submit }}
+    </form>
+{% endblock %}
